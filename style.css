@@ -1,0 +1,84 @@
+Style · CSS
+/* 1. Basics for the whole page */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #eef1f4;
+  color: #1c2a39;
+  line-height: 1.5;
+}
+ 
+/* 2. Header and menu */
+header {
+  background: #1c2a39;
+  color: white;
+  padding: 1rem 2rem;
+}
+ 
+nav a {
+  color: #c9d3dd;
+  margin-right: 1rem;
+  text-decoration: none;
+}
+ 
+nav a:hover {
+  color: white;
+}
+ 
+/* 3. Page content */
+main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+ 
+input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #c4ccd4;
+  border-radius: 6px;
+}
+ 
+/* 4. Book list */
+ul {
+  list-style: none;
+  padding: 0;
+}
+ 
+li {
+  background: white;
+  border-left: 10px solid #caeb37;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0 6px 6px 0;
+}
+ 
+li h3 {
+  margin: 0;
+}
+ 
+li p {
+  margin: 0.2rem 0 0.6rem;
+  color: #5d6b7a;
+}
+ 
+/* 5. Buttons */
+button {
+  background: #05f539;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+ 
+button:hover {
+  background: #f1093c;
+}
+ 
+/* 6. Footer */
+footer {
+  text-align: center;
+  color: #5d6b7a;
+  padding: 2rem;
+}
