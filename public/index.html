@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>St Columban's Library</title>
+  <meta name="description" content="Browse, borrow and manage books at St Columban's High School Library.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 0 2 2h14"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-4-4M20 16H6l4 4"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3-5.5 6.5-5.5s6 2 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c2 .6 3.3 2.3 3.5 5.2"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8zM7.5 8h.01"/></symbol>
+  <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<section id="auth" class="auth">
+  <div class="authbox">
+    <span class="logo logo-lg"><img src="logo.png" alt="St Columban's High School logo"></span>
+    <p class="eyebrow">Arise and shine</p>
+    <h1>St Columban's Library</h1>
+    <p id="authTitle" class="muted">Librarian sign in</p>
+    <form id="authForm">
+      <label>Username <input id="u" required autocomplete="username"></label>
+      <label>Password
+        <span class="pw"><input id="p" type="password" required autocomplete="current-password"><button type="button" id="showPw" class="ghost">Show</button></span>
+      </label>
+      <p id="authErr" class="err" role="alert"></p>
+      <button class="primary" type="submit" id="authBtn">Sign in</button>
+    </form>
+  </div>
+</section>
+
+<div id="app" hidden>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">
+        <span class="logo"><img src="logo.png" alt=""></span>
+        <div><strong>St Columban's</strong><small>Library management</small></div>
+      </div>
+      <p class="group">Workspace</p>
+      <nav aria-label="Main">
+        <button data-view="dash" class="on"><svg class="ic"><use href="#i-home"/></svg>Dashboard</button>
+        <button data-view="catalog"><svg class="ic"><use href="#i-book"/></svg>Book catalogue</button>
+        <button data-view="loans"><svg class="ic"><use href="#i-swap"/></svg>Loans <span class="badge" id="loanCount">0</span></button>
+        <button data-view="students"><svg class="ic"><use href="#i-users"/></svg>Students</button>
+        <button data-view="classes"><svg class="ic"><use href="#i-tag"/></svg>Classes</button>
+        <button data-view="add"><svg class="ic"><use href="#i-plus"/></svg>Add a book</button>
+        <button data-view="reports"><svg class="ic"><use href="#i-chart"/></svg>Reports</button>
+      </nav>
+      <p class="group">Preferences</p>
+      <nav><button data-view="settings"><svg class="ic"><use href="#i-cog"/></svg>Settings</button>
+        <button data-view="help"><svg class="ic"><use href="#i-help"/></svg>Help &amp; support</button></nav>
+      <div class="tip">
+        <strong>Arise and shine</strong>
+        <p>A good book can open a whole new world. Help every student find their next read.</p>
+        <button class="link" data-view="catalog">Explore books</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="bar">
+        <p class="crumb">Library / <b id="crumb">Dashboard</b></p>
+        <div class="who">
+          <span class="avatar" id="avatar"></span>
+          <span><b id="whoName"></b><small id="whoRole"></small></span>
+          <button id="logout" class="ghost">Log out</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section id="dash" class="view">
+          <div class="greet">
+            <div><h2 id="greetTitle"></h2><p class="muted" id="greetSub"></p></div>
+            <button class="primary" id="greetBtn" type="button"></button>
+          </div>
+          <div class="stats" id="stats"></div>
+          <div class="cols">
+            <div class="card">
+              <div class="chead">
+                <div><h3>Book catalogue</h3><p class="muted" id="count"></p></div>
+                <button class="link" id="viewAll" data-view="catalog">View all</button>
+              </div>
+              <div class="tools">
+                <span class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Search by title or author" aria-label="Search books"></span>
+                <select id="fclass" aria-label="Class"></select>
+                <select id="genre" aria-label="Category"></select>
+                <label class="check"><input type="checkbox" id="onlyAvail"> Available now</label>
+              </div>
+              <ul class="rows" id="list"></ul>
+            </div>
+            <div class="sidecol">
+              <div class="card">
+                <div class="chead"><div><h3>Browse classes</h3><p class="muted">Books for each class</p></div><button class="link" data-view="classes">Manage</button></div>
+                <ul class="cats" id="cats"></ul>
+              </div>
+              <div class="card">
+                <div class="chead"><div><h3>Recent activity</h3><p class="muted">Latest lending and returns</p></div></div>
+                <ul class="cats" id="recent"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="loans" class="view" hidden>
+          <div class="greet"><div><h2>Loans</h2><p class="muted">Every book that is currently out. Each loan lasts 14 days.</p></div>
+            <div class="btns"><button class="ghost" id="exportLoans" type="button">Export CSV</button><button class="ghost" type="button" onclick="window.print()">Print list</button></div></div>
+          <ul class="rows card" id="loanList"></ul>
+        </section>
+
+        <section id="students" class="view" hidden>
+          <div class="greet"><div><h2>Students</h2><p class="muted" id="scount"></p></div>
+            <button class="ghost" id="exportStu" type="button">Export CSV</button></div>
+          <div class="cols">
+            <div class="card">
+              <div class="tools">
+                <span class="search"><svg class="ic"><use href="#i-search"/></svg><input id="sq" type="search" placeholder="Search by name, admission no or class" aria-label="Search students"></span>
+                <select id="sclass" aria-label="Class"></select>
+                <label class="check"><input type="checkbox" id="showArch"> Show archived</label>
+              </div>
+              <ul class="rows" id="stuList"></ul>
+            </div>
+            <div class="sidecol">
+              <form id="stuForm" class="card">
+                <h3>Add a student or staff member</h3>
+                <label>Admission number (or staff ID) <input name="adm" required></label>
+                <label>Full name <input name="name" required></label>
+                <label>Class <select name="classId" id="stuClass"></select></label>
+                <label>Type <select name="kind" id="stuKind"><option value="student">Student</option><option value="staff">Teacher / staff</option></select></label>
+                <div class="actions"><button class="primary" type="submit">Add student</button></div>
+              </form>
+              <div class="card">
+                <h3>Import from Excel</h3>
+                <p class="muted">In Excel, select the columns <b>Admission no, Name, Class</b> and copy them. Paste below, or choose a CSV file. New classes are created for you. Add a fourth column <b>Type</b> and write <b>Staff</b> for teachers.</p>
+                <label>Pasted list <textarea id="impText" placeholder="1001&#9;Mary Wanjiru&#9;Form 4 East&#10;T01&#9;Mr Otieno&#9;&#9;Staff"></textarea></label>
+                <label>Or CSV file <input id="impFile" type="file" accept=".csv,.tsv,.txt"></label>
+                <div class="actions"><button class="primary" id="impBtn" type="button">Import students</button></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="classes" class="view" hidden>
+          <div class="greet"><div><h2>Classes</h2><p class="muted">Add a class, select it, then add its categories (subjects like Maths or English).</p></div>
+            <button class="ghost" id="promoteBtn" type="button">Move everyone up a class</button></div>
+          <div class="cols">
+            <div class="card">
+              <div class="chead"><div><h3>Classes</h3><p class="muted">Select a class to manage its categories</p></div></div>
+              <ul class="rows" id="classList"></ul>
+              <form id="clsForm" class="tools" style="margin:.9rem 0 0">
+                <input id="clsName" required maxlength="40" placeholder="New class, e.g. Grade 10 or Form 4" aria-label="New class name">
+                <button class="primary" type="submit">Add class</button>
+              </form>
+            </div>
+            <div class="card" id="catPanel">
+              <div class="chead"><div><h3 id="catTitle">Categories</h3><p class="muted">Subjects for this class</p></div></div>
+              <ul class="rows" id="catList"></ul>
+              <form id="catForm" class="tools" style="margin:.9rem 0 0">
+                <input id="catName" required maxlength="40" placeholder="e.g. Mathematics" aria-label="New category name">
+                <button class="primary" type="submit">Add category</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section id="add" class="view" hidden>
+          <div class="greet"><div><h2>Add books</h2><p class="muted">Add one book, or import your whole catalogue from Excel.</p></div></div>
+          <div class="cols">
+            <form id="addForm" class="card">
+              <h3>Add one book</h3>
+              <label>Title <input name="title" required></label>
+              <label>Author <input name="author" required></label>
+              <label>Class <select id="bookClass"></select></label>
+              <label>Category <select name="categoryId" id="bookCat"></select></label>
+              <label>Year <input name="year" type="number" min="1" max="2100" required></label>
+              <label>Copies <input name="copies" type="number" min="1" value="1" required></label>
+              <div class="actions"><button type="submit" class="primary">Add to catalogue</button><button type="reset" class="ghost">Clear form</button></div>
+            </form>
+            <div class="card">
+              <h3>Import books from Excel</h3>
+              <p class="muted">Copy these columns from Excel: <b>Title, Author, Class, Category, Year, Copies</b>. Classes and categories that don't exist yet are created for you, and books already in the catalogue are skipped.</p>
+              <label>Pasted list <textarea id="bimpText" placeholder="Things Fall Apart&#9;Chinua Achebe&#9;Form 4&#9;English&#9;1958&#9;3"></textarea></label>
+              <label>Or CSV file <input id="bimpFile" type="file" accept=".csv,.tsv,.txt"></label>
+              <div class="actions"><button class="primary" id="bimpBtn" type="button">Import books</button></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="reports" class="view" hidden>
+          <div class="greet"><div><h2>Reports</h2><p class="muted" id="repSub"></p></div></div>
+          <div class="card" id="rpOverdue">
+            <div class="chead"><div><h3>Overdue books</h3><p class="muted">Sorted by how long they have been out</p></div><button class="ghost" data-print="rpOverdue">Print</button></div>
+            <div class="scroll" id="odBody"></div>
+          </div>
+          <div class="card" id="rpClear" style="margin-top:1rem">
+            <div class="chead"><div><h3>Clearance list</h3><p class="muted">Who still owes books or has lost one. Use it at the end of term.</p></div><button class="ghost" data-print="rpClear">Print</button></div>
+            <div class="tools"><select id="clrClass" aria-label="Class"></select></div>
+            <div class="scroll" id="clrBody"></div>
+          </div>
+          <div class="cols" style="margin-top:1rem">
+            <div class="card" id="rpTop">
+              <div class="chead"><div><h3>Most borrowed books</h3><p class="muted">All time, top 10</p></div><button class="ghost" data-print="rpTop">Print</button></div>
+              <div class="scroll" id="topBody"></div>
+            </div>
+            <div class="card" id="rpLost">
+              <div class="chead"><div><h3>Lost or damaged</h3><p class="muted">Copies out of circulation</p></div><button class="ghost" data-print="rpLost">Print</button></div>
+              <div class="scroll" id="lostBody"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="settings" class="view" hidden>
+          <div class="greet"><div><h2>Settings</h2><p class="muted">Lending rules, backups and your password.</p></div></div>
+          <form id="rulesForm" class="addform card" style="margin-bottom:1rem">
+            <h3>Lending rules</h3>
+            <label>Students: most books out at once <input id="maxLoans" type="number" min="1" max="50" required></label>
+            <label>Students: days a book can be kept <input id="loanDays" type="number" min="1" max="365" required></label>
+            <label>Teachers / staff: most books out at once <input id="staffMaxLoans" type="number" min="1" max="50" required></label>
+            <label>Teachers / staff: days a book can be kept <input id="staffLoanDays" type="number" min="1" max="365" required></label>
+            <label>Times a loan can be renewed <input id="maxRenewals" type="number" min="0" max="10" required></label>
+            <div class="actions"><button class="primary" type="submit">Save rules</button></div>
+          </form>
+          <div class="addform card" style="margin-bottom:1rem">
+            <h3>Back up your data</h3>
+            <p class="muted" id="backupInfo"></p>
+            <p class="muted">A backup is saved automatically every day, and before moving students up a class. The newest 20 are kept in the <b>backups</b> folder.</p>
+            <div class="actions"><button class="primary" id="backupNow" type="button">Back up now</button><a class="ghost" id="backupDl" href="/api/backup/download" style="padding:.5rem .9rem;border-radius:10px;border:1px solid var(--line);text-decoration:none;color:var(--ink)">Download a copy</a></div>
+          </div>
+          <form id="pwForm" class="addform card">
+            <h3>Change password</h3>
+            <label>Current password <input name="old" type="password" required autocomplete="current-password"></label>
+            <label>New password <input name="next" type="password" required minlength="6" autocomplete="new-password"></label>
+            <div class="actions"><button class="primary" type="submit">Save password</button></div>
+          </form>
+        </section>
+
+        <section id="help" class="view" hidden>
+          <div class="greet"><div><h2>Help &amp; support</h2><p class="muted">How the library works.</p></div></div>
+          <div class="card">
+            <h3>Lending and returning</h3><p class="muted">In the catalogue, select Lend book and pick the student. On the Loans page, use Return book, Renew (extends the due date) or Lost (for lost or damaged books).</p>
+            <h3 style="margin-top:1rem">Students who leave</h3><p class="muted">Archive them. They disappear from lists but their borrowing history is kept. Archived students can be restored.</p>
+            <h3 style="margin-top:1rem">Teachers and staff</h3><p class="muted">Add them with the type Teacher / staff. They have their own limits under Settings.</p>
+            <h3 style="margin-top:1rem">End of term</h3><p class="muted">Open Reports for the clearance list and overdue books, then back up under Settings.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog id="lendDlg">
+  <h3 id="lendTitle"></h3>
+  <input id="stuQ" type="search" placeholder="Search by name, admission no or class" aria-label="Find a student" style="margin-top:.8rem">
+  <ul class="pick" id="stuPick"></ul>
+  <div class="actions"><button type="button" class="ghost" id="lendCancel">Cancel</button></div>
+</dialog>
+
+<dialog id="promoDlg">
+  <h3>Move everyone up a class</h3>
+  <p class="muted">Choose where each class goes. A backup is saved first. Students who leave the school are removed, so check those carefully.</p>
+  <ul class="promo" id="promoList"></ul>
+  <div class="actions"><button type="button" class="primary" id="promoGo">Move students</button><button type="button" class="ghost" id="promoCancel">Cancel</button></div>
+</dialog>
+
+<dialog id="bookDlg">
+  <h3>Edit book</h3>
+  <form id="bookForm" class="dform">
+    <label>Title <input id="bdTitle" required></label>
+    <label>Author <input id="bdAuthor" required></label>
+    <label>Class <select id="bdClass"></select></label>
+    <label>Category <select id="bdCat"></select></label>
+    <label>Year <input id="bdYear" type="number" min="0" max="2100"></label>
+    <label>Copies <input id="bdCopies" type="number" min="1" required></label>
+    <div class="actions"><button class="primary" type="submit">Save changes</button><button type="button" class="ghost" data-close="bookDlg">Cancel</button></div>
+  </form>
+</dialog>
+
+<dialog id="stuDlg">
+  <h3 id="sdTitle">Edit student</h3>
+  <form id="stuEditForm" class="dform">
+    <label>Name <input id="sdName" required></label>
+    <label>Admission number <input id="sdAdm" readonly></label>
+    <label>Class <select id="sdClass"></select></label>
+    <label>Type <select id="sdKind"><option value="student">Student</option><option value="staff">Teacher / staff</option></select></label>
+    <div class="actions"><button class="primary" type="submit">Save</button><button type="button" class="ghost" data-close="stuDlg">Cancel</button></div>
+  </form>
+</dialog>
+
+<dialog id="histDlg">
+  <h3 id="histTitle">History</h3>
+  <ul class="hist" id="histList"></ul>
+  <div class="actions"><button type="button" class="ghost" data-close="histDlg">Close</button></div>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+<script src="extras.js"></script>
+</body>
+</html>
